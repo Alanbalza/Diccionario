@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Léxico de Sinónimos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="{{ url_for('analyze') }}" class="form-section">
+            <label for="code">Ingrese el texto a analizar:</label><br>
+            <textarea id="code" name="code" rows="20" cols="50">{{ code if code else '' }}</textarea><br>
+            <div class="buttons">
+                <button type="submit">Análisis léxico</button>
+                <button type="submit" formaction="{{ url_for('clear_results') }}">Limpiar</button>
+            </div>
+        </form>
+
+        {% if results %}
+        <div class="results-section">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Valor</th>
+                        <th>Sinónimo</th>
+                        <th>Símbolo</th>
+                        <th>Dígito</th>
+                        <th>Línea</th>
+                        <th>ERROR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for token in results %}
+                    <tr>
+                        <td>{{ token.value }}</td>
+                        <td>{{ token.sinónimo }}</td>
+                        <td class="{% if token.símbolo %}highlight{% endif %}">{{ token.símbolo }}</td>
+                        <td class="{% if token.dígito %}highlight{% endif %}">{{ token.dígito }}</td>
+                        <td>{{ token.línea }}</td>
+                        <td>{{ token.ERROR }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
